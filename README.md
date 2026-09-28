@@ -8,22 +8,22 @@ MIDI を Bambu Lab プリンタのブザー用 G-code に変換して、プリ�
 
 **Small working script / experiment.** A single-file CLI that does the conversions below. The `M1006` note format and the sound-block markers are taken from Bambu Studio-generated G-code for the A1 mini (the author's printer); other Bambu models are untested. No tests.
 
-✅ **Works**
+**Works**
 - MIDI → standalone sound-only G-code
 - MIDI → replace the finish (default) or start sound block inside an existing Bambu G-code file
 - G-code → MIDI (reads the finish block, else the start block, else every `M1006` line) to hear what a file will play
 - Chords of up to 3 simultaneous notes; gaps over 30 ms become rests; repeated identical chords are merged
 
-🚧 **Partial or rough**
+**Partial or rough**
 - Timing is approximate: notes are grouped by start time (±10 ms) and played chord by chord, so overlapping / legato lines drift
 - Only the first tempo event in the MIDI file is used; tempo changes are ignored
 
-📝 **Not implemented yet**
+**Not implemented yet**
 - Tempo change / transpose on MIDI → G-code (`--bpm` only affects G-code → MIDI)
 - Per-note dynamics (all notes get the single `--volume` value)
 - Choosing which 3 voices to keep
 
-⚠️ **Known issues & limitations**
+**Known issues & limitations**
 - When more than 3 notes start together, the **lowest** 3 are kept — a melody on top can disappear
 - Each note is capped at 1 s (`B100` × 10 ms); longer notes are cut short
 - `--replace` only works if the file contains Bambu's `;=====printer finish  sound=====` / `;=====start printer sound=====` markers; otherwise it prints a warning and writes the file unchanged
